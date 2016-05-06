@@ -1,5 +1,10 @@
 //game.c
 
+//TODO put this somewhere in the code
+//   int disciplines[] = DEFAULT_DISCIPLINES;
+//   int dice[] = DEFAULT_DICE;
+//   Game g = newGame (disciplines, dice);
+
 #include "Game.h"
 #include <stdio.h>
 #include <stdlib.h>
