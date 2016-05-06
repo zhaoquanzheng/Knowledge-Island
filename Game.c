@@ -43,7 +43,7 @@ int main(int argc, char * argv[]){
 
 void testFunction(){
   //need to test these functions (or not -e.g. void functions)
-  //and then write them
+  //and write them
   //and then comment in some of the test, and then compile and check, and then... and then smile >_<
   /*  Game newGame (int discipline[], int dice[]);
       void disposeGame (Game g);
@@ -67,4 +67,14 @@ void testFunction(){
       int getStudents (Game g, int player, int discipline);
       int getExchangeRate (Game g, int player, 
                      int disciplineFrom, int disciplineTo);
+   */
+   //and then the list of functions that we may want in our code
+   /* 1)changing path information into coordinates of a vertice of the hexagon
+      2)changing path information into a specific arc (2 coordinates?)
+      3)roll a dice that has values in the interval [2,12]
+      4)scanf functions that read in the path, the action, the name of the player etc
+      5)calculate the distance away from one point (or between two points) - used in isLegal() to determine if the campuses are
+         too close together or not
+      6)
+   */
 }
