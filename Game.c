@@ -46,12 +46,11 @@
 #define IP_KPI 10
 #define PRESTIGE_KPI 10
 
-typedef struct _game{ //We mainly need to finish the draft of this by Sunday 08 May 2016
+typedef struct _game{ //to be Updated as time goes by (regularly!!!)
   int currentTurn;
   int diceThrow;
   Player players[3]; //where Player is a pointer to a struct _player
   Tile board[19];
-  int board[12][11];
   int mostArcs;
   int mostArcsBy;
   int mostCampuses;
