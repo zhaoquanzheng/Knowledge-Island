@@ -81,7 +81,7 @@ typedef struct _board{
    int discipline;
    int vertice[6];
    int edge[6];
-}
+} board
 
 
 int main(int argc, char * argv[]){
