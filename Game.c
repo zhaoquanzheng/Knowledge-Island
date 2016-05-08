@@ -78,6 +78,7 @@ typedef struct _player{
 
 typedef struct _board{
    int diceNum;
+   int discipline;
    int vertice[6];
    int edge[6];
 }
