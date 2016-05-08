@@ -50,6 +50,7 @@ typedef struct _game{ //We mainly need to finish the draft of this by Sunday 08 
   int currentTurn;
   int diceThrow;
   Player players[3]; //where Player is a pointer to a struct _player
+  Tile board[19];
   int board[12][11];
   int mostArcs;
   int mostArcsBy;
@@ -74,6 +75,12 @@ typedef struct _player{
   //somehow talk about arcs
   //somehow talk about GO8s
 } * Player;
+
+typedef struct _board{
+   int diceNum;
+   int vertice[6];
+   int edge[6];
+}
 
 
 int main(int argc, char * argv[]){
