@@ -46,6 +46,25 @@
 #define IP_KPI 10
 #define PRESTIGE_KPI 10
 
+typedef struct _player{
+  char playername[30]; //maximum of 30 characters
+  int KPI;
+  int students[6]; //the value at each index represents the number of the students
+  int patent;
+  int papers;
+  //somehow talk about campuses
+  //somehow talk about arcs
+  //somehow talk about GO8s
+} * Player;
+
+typedef struct _board{
+   int diceNum;
+   int discipline;
+   int vertice[6];
+   int edge[6];
+   //training centres?
+} * Tile;
+
 typedef struct _game{ //to be Updated as time goes by (regularly!!!)
   int currentTurn;
   int diceThrow;
@@ -64,23 +83,6 @@ typedef struct _game{ //to be Updated as time goes by (regularly!!!)
   int KPI;
 } game;
 
-typedef struct _player{
-  char playername[30]; //maximum of 30 characters
-  int KPI;
-  int students[6]; //the value at each index represents the number of the students
-  int patent;
-  int papers;
-  //somehow talk about campuses
-  //somehow talk about arcs
-  //somehow talk about GO8s
-} * Player;
-
-typedef struct _board{
-   int diceNum;
-   int discipline;
-   int vertice[6];
-   int edge[6];
-} board
 
 
 int main(int argc, char * argv[]){
@@ -88,33 +90,6 @@ int main(int argc, char * argv[]){
   return EXTI_SUCCESS;
 }
 
-//void testFunction(){ moving to separate testGame.c
-  //need to test these functions (or not -e.g. void functions)
-  //and write them
-  //and then comment in some of the test, and then compile and check, and then... and then smile >_<
-  /*  Game newGame (int discipline[], int dice[]);
-      void disposeGame (Game g);
-      void makeAction (Game g, action a); //this is a big one
-      void throwDice (Game g, int diceScore);
-      int getDiscipline (Game g, int regionID);
-      int getDiceValue (Game g, int regionID);
-      int getMostARCs (Game g);
-      int getMostPublications (Game g);
-      int getTurnNumber (Game g);
-      int getWhoseTurn (Game g);
-      int getCampus(Game g, path pathToVertex);
-      int getARC(Game g, path pathToEdge);
-      int isLegalAction (Game g, action a); //this is a big one
-      int getKPIpoints (Game g, int player);
-      int getARCs (Game g, int player);
-      int getGO8s (Game g, int player);
-      int getCampuses (Game g, int player);
-      int getIPs (Game g, int player);
-      int getPublications (Game g, int player);
-      int getStudents (Game g, int player, int discipline);
-      int getExchangeRate (Game g, int player, 
-                     int disciplineFrom, int disciplineTo);
-   */
    //and then the list of functions that we may want in our code
    /* 1)changing path information into coordinates of a vertice of the hexagon
       2)changing path information into a specific arc (2 coordinates?)
