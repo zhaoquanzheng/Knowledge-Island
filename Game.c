@@ -19,13 +19,49 @@
                 STUDENT_MMONEY, STUDENT_MTV, STUDENT_BQN, STUDENT_BPS}
 #define DEFAULT_DICE {9,10,8,12,6,5,3,11,3,11,4,6,4,7,9,2,8,10,5} 
 //I'm putting this here because they said that we weren't allowed to change Game.h and this is commented in Game.h
-
+#define TOTAL_ARCS 72
+#define TOTAL_VERTICES 54
+#define TOTAL_DISCIPLINES 6
+#define TOTAL_SURROUNDING_REGIONS 6
+#define TOTAL_ADJACENT_VERTICES 3
+#define TOTAL_ADJACENT_ARCS 4
+#define TOTAL_JOINING_ARCS 3
+#define TOTAL_RETRAINING_PORTS 10
+#define TOTAL_RETRAINING_CENTRES 5
+ 
+#define VERTICES_PER_HEX 6
+#define EDGES_PER_HEX 6
+#define ARC_ENDPOINTS 2
+#define SEA_CONST 3
+#define X_COORD_MIN -2
+#define X_COORD_MAX 2
+#define REGIONS_PER_VERTEX 3
+#define MAX_GO8 8
+ 
+#define FALSE_REGION (region) {9, 9}
+ 
+#define CAMPUS_KPI 10
+#define GO8_KPI 20
+#define ARC_KPI 2
+#define IP_KPI 10
+#define PRESTIGE_KPI 10
 
 typedef struct _game{ //We mainly need to finish the draft of this by Sunday 08 May 2016
   int currentTurn;
+  int diceThrow;
   Player players[3]; //where Player is a pointer to a struct _player
-  //come on guys, remember anything from the tutorial?
-  //Board
+  int board[12][11];
+  int mostArcs;
+  int mostArcsBy;
+  int mostCampuses;
+  int mostCampusesBy;
+  int mostGO8;
+  int mostGO8By;
+  int mostIP;
+  int mostIPby;
+  int mostPaper;
+  int mostPaperby;
+  int KPI;
 } game;
 
 typedef struct _player{
@@ -39,14 +75,13 @@ typedef struct _player{
   //somehow talk about GO8s
 } * Player;
 
-void testFunction();
 
 int main(int argc, char * argv[]){
-  testFunction();
+//  testFunction();
   return EXTI_SUCCESS;
 }
 
-void testFunction(){
+//void testFunction(){ moving to separate testGame.c
   //need to test these functions (or not -e.g. void functions)
   //and write them
   //and then comment in some of the test, and then compile and check, and then... and then smile >_<
