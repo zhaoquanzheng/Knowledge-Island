@@ -208,3 +208,110 @@ void makeAction (Game g, action a){
    
    //} for the commented while loop at the top   
 }
+
+// return the current turn number of the game -1,0,1, ..
+int getTurnNumber (Game g) {
+	int turnNumber;
+	turnNumber = g->currentTurn;
+	return turnNumber;
+}
+
+// return the player id of the player whose turn it is 
+// the result of this function is NO_ONE during Terra Nullis
+int getWhoseTurn (Game g) {
+    int whoseTurn; 
+    whoseTurn = (g->currentTurn)%3;
+    //return 1,2,3 (representing each player's ID)
+    return whoseTurn;
+}
+
+// return the contents of the given vertex (ie campus code or 
+// VACANT_VERTEX)
+//pathToVertex is passed into function to get VertexIndex
+//Write function for getVertexIndexFromCoord
+int getCampus (Game g, path pathToVertex) {
+    int vertexIndex;
+    if (getVertexIndexFromCoord (g, pathToVertex) != INVALID) { //#define INVALID
+        vertexIndex = g->boardVertices[getVertexIndexFromCoord (g, v)].contents;
+    } else {
+    	vertexIndex = VACANT_VERTEX;
+    }
+    return vertexIndex;
+
+}
+
+// the contents of the given edge (ie ARC code or vacent ARC)
+//Write function for getArcIndexFromCoord
+int getARC (Game g, path pathToEdge) {
+    int arcIndex;
+    if (getArcIndexFromCoord (g, pathToArc) != INVALID) { //#define INVALID
+        arcIndex = g->boardVertices[getarcIndexFromCoord (a, v)].contents;
+    } else {
+    	arcIndex = VACANT_ARC;
+    }
+    return arcIndex;
+}
+
+// return the number of KPI points the specified player currently has
+int getKPIpoints (Game g, int player) {
+	int playerKPI = 0;
+
+	//define ARC_KPI = 2
+	playerKPI += ARC_KPI * getARCs(g, player); 
+	//define CAMPUS_KPI = 10
+	playerKPI += CAMPUS_KPI * getCampuses(g, player);
+	//define G08_KPI = 20
+	playerKPI += GO8_KPI * getG08s(g, player);
+	//define IP_KPI = 10
+	playerKPI += IP_KPI * getIPs(g, payer);
+
+	if (player == getMostArcs(g)) { 
+		playerKPI += 10;
+	}
+
+	if (player == getMostPublications(g)) {
+		playerKPI += 10;
+	}
+
+	return  playerKPI;
+}
+
+// return the number of ARC grants the specified player currently has
+int getARCs (Game g, int player) {
+	int playerARCs;
+	playerARCs = (g->player[playerID].numARCgrants); // add to player struct
+	return playerARCs;
+}
+
+// return the number of GO8 campuses the specified player currently has
+int getG08s (Game g, int player) {
+	int playerG08s;
+	playerG08s = (g->player[playerID].numG08s); // add to player struct
+	return playerG08s;
+}
+
+// return the number of normal Campuses the specified player currently has
+int getCampuses (Game g, int player) {
+	int playerCampuses;
+	playerCampuses = (g->player[playerID].numCampuses); // add to player struct
+	return playerCampuses;
+}
+
+// return the number of students of the specified discipline type 
+// the specified player currently has
+int getStudents (Game g, int player, int discipline) {
+	int playerNumStudents;
+	playerNumStudents = (g->player[playerID].students[discipline]);
+	return playerNumStudents
+}
+
+// return how many students of discipline type disciplineFrom
+// the specified player would need to retrain in order to get one 
+// student of discipline type disciplineTo.  This will depend 
+// on what retraining centers, if any, they have a campus at.
+int getExchangeRate (Game g, int player, int disciplineFrom, int disciplineTo) {
+	int rate = 3;
+   //im not sure how to do this one
+}
+
+
