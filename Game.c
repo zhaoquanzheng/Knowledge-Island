@@ -81,6 +81,7 @@ typedef struct _game{ //to be Updated as time goes by (regularly!!!)
   int mostPaper;
   int mostPaperby;
   int KPI;
+  int mostKPIby;
 } game;
 
 
@@ -99,4 +100,111 @@ int main(int argc, char * argv[]){
          too close together or not
       6)
    */
+}
+
+Game newGame(int discipline[], int dice[]){
+   Game newG = (Game) malloc(sizeof(struct _game));
+   newG->currentTurn = -1;
+   //printf("The name of the first Univerisity is :\n");
+   newG->players[UNI_A]->playername = getPlayerOrAIName();
+   //printf("The name of the second Univerisity is :\n");
+   newG->players[UNI_B]->playername = getPlayerOrAIName();
+   //printf("The name of the third Univerisity is :\n");
+   newG->players[UNI_C]->playername = getPlayerOrAIName();
+   
+   int a = 0;
+   while(a < 19){
+      board[a]->discipline = discipline[a];
+      board[a]->diceNum    = dice[a];
+      a++; 
+   }
+   
+   newG->mostArcs        = 0;
+   newG->mostArcsBy      = NO_ONE;
+   newG->mostCampuses = 2;
+   newG->mostCampusesBy = UNI_A;
+   newG->mostGO8 = 0;
+   newG->mostGO8By = NO_ONE;
+   newG->mostIP = 0;
+   newG->mostIPby = NO_ONE;
+   newG->mostPaper = 0;
+   newG->mostPaperby = NO_ONE;
+   newG->KPI = 20;
+   newG->mostKPIby = UNI_A;
+
+   return newG;
+} //We need to improve on struct_game, and then I'll have to add those changes to initialisation
+
+
+void disposeGame (Game g){
+   free(g);
+}
+
+void throwDice( Game g, int score){
+//NOTE:THIS FUNCTION RELIES HEAVILY ON HOW WE STORE THE INFORMATION OF CAMPUSES ON THE MAP
+//WHETHER IT BE BY A COMBINATION OF THREE HEXAGONS, OR MAINLY AS A COORDINATE
+   //I'll need to know which campuses and which players are on which vertex of the regions
+   int i = 0;
+   int students[3][6] = {0};
+   while(i < 19){
+      if(g->board[i]->diceNum == score){
+         int type = getDiscipline(g,i); //Should I be relying/trusting on the other functions?
+         int a = 0;
+         while(a<6){
+            int corner = g->board[i]->vertice[a] //CHANGE HERE
+            if(corner>=UNI_A && corner<=UNI_C){    //should NO_CAMPUS, or a UNI
+               students[corner][type]++;
+            }
+            a++;
+         }
+      }
+      i++;
+   }
+   int x = 0;
+   int y = 0;
+   while(x < 3){
+      y = 0;
+      while(y<6){
+         g->players[x]->students[y]+=students[x][y];
+         y++;
+      }
+      x++;
+   }
+}
+
+
+void makeAction (Game g, action a){
+   //Dice is already thrown before they take their action
+   //when we have written runGame.c, the following becomes usable
+   /* while(a != 0){
+    *    get(action) - because they are allowed to take multiple actions per turn
+    */
+   int currPlyr = getWhoseTurn(g); //where currPlyr shall be 1,2, or 3
+   char* pathway = a.destination;
+   if(a.actionCode == BUILD_CAMPUS){
+      //error we still haven't decided on how to code the vertexes
+      //int campus = getCampus(g,pathway);
+      //so for the following, I don't know whether to use int, int*, or int[][]
+      //g->something->(campus?)->?
+      //pointer to that campus and change it to 'currPlyr' which therfore changes
+      //ownership to that UNI
+   }else if(a.actionCode == OBTAIN_ARC){
+      //int Arc = getARC(g,pathway);
+      //g->arc = currPlyr;
+      //^that doesn't really make sense at the moment, I know
+   }else if(a.actionCode = OBTAIN_PUBLICATION){ //because the function that is 
+                                                //about to call makeAction()
+                                                //changes SPINOFF to either Pp, or IP
+      g->players[currPlyr]->papers++;
+   }else if(a.actionCode = OBTAIN_IP_PATENT){
+      g->players[currPlyr]->patent++;
+   }else{
+      int price = getExchangeRate (g, currPlyr, a.disciplineFrom, a.disciplineTo);
+      g->players[currPlyr]->students[a.disciplineFrom] -= price;
+      g->players[currPlyr]->students[a.disciplineTo] ++;
+      //Please admire how much stuff, we can assume here
+      //and this lets you realise how much stuff goes into isLegalAction()
+   }
+   
+   //} for the commented while loop at the top   
 }
