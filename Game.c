@@ -87,7 +87,7 @@ typedef struct _game{ //to be Updated as time goes by (regularly!!!)
 
 int main(int argc, char * argv[]){
 //  testFunction();
-  return EXTI_SUCCESS;
+  return EXIT_SUCCESS;
 }
 
    //and then the list of functions that we may want in our code
