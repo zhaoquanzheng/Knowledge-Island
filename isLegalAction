@@ -1,0 +1,32 @@
+fresh new file not always having to follow .c format so that we can relaxingly do this hard function
+We're not going to compile this file anyways~
+or would having c formatting make it easier to read? 
+
+
+
+
+
+
+
+
+
+
+
+
+int isLegalAction (Game g, action a){ //assume paths passed in are NULL terminated
+  int Legal = FALSE; //because there will be more illegal moves than legal moves
+  
+  //Section One - checking about paths where they will lead to
+
+  //Section Two - checking about students to build stuff
+  
+  //Section Three - Checking about students to buy stuff
+  
+  //Section Four.1 - Checking about the spot where they want to build - Separate Campus and Arc
+  
+  //Section Four.2
+  
+  //write more stuff that you see from the OpenLearning Site, or know from Game rules
+  
+  return Legal;
+}
