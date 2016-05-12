@@ -215,29 +215,29 @@ void makeAction (Game g, action a){
 // this is NO_ONE until the first arc is purchased after the game 
 // has started.  
 int getMostARCs (Game g){
-	int ARCsOfPlayer1 = getARCs (g, 0);
-	int ARCsOfPlayer2 = getARCs (g, 1);
-	int ARCsOfPlayer3 = getARCs (g, 2);
+	int ARCsOfPlayer1 = getARCs (g, 1);
+	int ARCsOfPlayer2 = getARCs (g, 2);
+	int ARCsOfPlayer3 = getARCs (g, 3);
 	if((ARCsOfPlayer1 >= ARCsOfPlayer2) && (ARCsOfPlayer1 >= ARCsOfPlayer3))
-		return 0;
-	else if((ARCsOfPlayer2 >= ARCsOfPlayer1) && (ARCsOfPlayer2 >= ARCsOfPlayer3))
 		return 1;
-	else if(ARCsOfPlayer3 >= ARCsOfPlayer1) && (ARCsOfPlayer3 >= ARCsOfPlayer2))
+	else if((ARCsOfPlayer2 >= ARCsOfPlayer1) && (ARCsOfPlayer2 >= ARCsOfPlayer3))
 		return 2;
+	else if(ARCsOfPlayer3 >= ARCsOfPlayer1) && (ARCsOfPlayer3 >= ARCsOfPlayer2))
+		return 3;
 }
 
 // which university currently has the prestige award for the most pubs?
 // this is NO_ONE until the first publication is made.
 int getMostPublications (Game g){
-	int PublicationsOfPlayer1 = getPublications (g, 0);
-	int PublicationsOfPlayer2 = getPublications (g, 1);
-	int PublicationsOfPlayer3 = getPublications (g, 2);
+	int PublicationsOfPlayer1 = getPublications (g, 1);
+	int PublicationsOfPlayer2 = getPublications (g, 2);
+	int PublicationsOfPlayer3 = getPublications (g, 3);
 	if((PublicationsOfPlayer1 >= PublicationsOfPlayer2) && (PublicationsOfPlayer1 >= PublicationsOfPlayer3))
-		return 0;
-	else if((PublicationsOfPlayer2 >= PublicationsOfPlayer1) && (PublicationsOfPlayer2 >= PublicationsOfPlayer3))
 		return 1;
-	else if(PublicationsOfPlayer3 >= PublicationsOfPlayer1) && (PublicationsOfPlayer3 >= PublicationsOfPlayer2))
+	else if((PublicationsOfPlayer2 >= PublicationsOfPlayer1) && (PublicationsOfPlayer2 >= PublicationsOfPlayer3))
 		return 2;
+	else if(PublicationsOfPlayer3 >= PublicationsOfPlayer1) && (PublicationsOfPlayer3 >= PublicationsOfPlayer2))
+		return 3;
 }
 
 // return the current turn number of the game -1,0,1, ..
