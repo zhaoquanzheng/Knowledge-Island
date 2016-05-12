@@ -210,6 +210,22 @@ void makeAction (Game g, action a){
    //} for the commented while loop at the top   
 }
 
+// what type of students are produced by the specified region?
+// regionID is the index of the region in the newGame arrays (above) 
+// see discipline codes above
+int getDiscipline (Game g, int regionID){
+	int discipline;
+	discipline = g->board[regionID].discipline;
+	return discipline;
+} 
+
+// what dice value produces students in the specified region?
+// 2..12
+int getDiceValue (Game g, int regionID){
+	int diceValue;
+	diceValue  = g->board[regionID].diceNum;
+	return  diceValue;
+}
 
 // which university currently has the prestige award for the most ARCs?
 // this is NO_ONE until the first arc is purchased after the game 
