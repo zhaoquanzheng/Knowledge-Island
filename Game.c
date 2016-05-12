@@ -215,29 +215,29 @@ void makeAction (Game g, action a){
 // this is NO_ONE until the first arc is purchased after the game 
 // has started.  
 int getMostARCs (Game g){
-	int ARCsOfPlayer1 = getARCs (g, 1);
-	int ARCsOfPlayer2 = getARCs (g, 2);
-	int ARCsOfPlayer3 = getARCs (g, 3);
+	int ARCsOfPlayer1 = getARCs (g, 0);
+	int ARCsOfPlayer2 = getARCs (g, 1);
+	int ARCsOfPlayer3 = getARCs (g, 2);
 	if((ARCsOfPlayer1 >= ARCsOfPlayer2) && (ARCsOfPlayer1 >= ARCsOfPlayer3))
-		return 1;
+		return 0;
 	else if((ARCsOfPlayer2 >= ARCsOfPlayer1) && (ARCsOfPlayer2 >= ARCsOfPlayer3))
-		return 2;
+		return 1;
 	else if(ARCsOfPlayer3 >= ARCsOfPlayer1) && (ARCsOfPlayer3 >= ARCsOfPlayer2))
-		return 3;
+		return 2;
 }
 
 // which university currently has the prestige award for the most pubs?
 // this is NO_ONE until the first publication is made.
 int getMostPublications (Game g){
-	int PublicationsOfPlayer1 = getPublications (g, 1);
-	int PublicationsOfPlayer2 = getPublications (g, 2);
-	int PublicationsOfPlayer3 = getPublications (g, 3);
+	int PublicationsOfPlayer1 = getPublications (g, 0);
+	int PublicationsOfPlayer2 = getPublications (g, 1);
+	int PublicationsOfPlayer3 = getPublications (g, 2);
 	if((PublicationsOfPlayer1 >= PublicationsOfPlayer2) && (PublicationsOfPlayer1 >= PublicationsOfPlayer3))
-		return 1;
+		return 0;
 	else if((PublicationsOfPlayer2 >= PublicationsOfPlayer1) && (PublicationsOfPlayer2 >= PublicationsOfPlayer3))
-		return 2;
+		return 1;
 	else if(PublicationsOfPlayer3 >= PublicationsOfPlayer1) && (PublicationsOfPlayer3 >= PublicationsOfPlayer2))
-		return 3;
+		return 2;
 }
 
 // return the current turn number of the game -1,0,1, ..
@@ -294,7 +294,7 @@ int getKPIpoints (Game g, int player) {
 	//define G08_KPI = 20
 	playerKPI += GO8_KPI * getG08s(g, player);
 	//define IP_KPI = 10
-	playerKPI += IP_KPI * getIPs(g, payer);
+	playerKPI += IP_KPI * getIPs(g, player);
 
 	if (player == getMostArcs(g)) { 
 		playerKPI += 10;
@@ -310,34 +310,34 @@ int getKPIpoints (Game g, int player) {
 // return the number of ARC grants the specified player currently has
 int getARCs (Game g, int player) {
 	int playerARCs;
-	playerARCs = (g->player[playerID].numARCgrants); // add to player struct
+	playerARCs = (g->players[player].numARCgrants); // add to player struct
 	return playerARCs;
 }
 
 // return the number of GO8 campuses the specified player currently has
 int getG08s (Game g, int player) {
 	int playerG08s;
-	playerG08s = (g->player[playerID].numG08s); // add to player struct
+	playerG08s = (g->players[player].numG08s); // add to player struct
 	return playerG08s;
 }
 
 // return the number of normal Campuses the specified player currently has
 int getCampuses (Game g, int player) {
 	int playerCampuses;
-	playerCampuses = (g->player[playerID].numCampuses); // add to player struct
+	playerCampuses = (g->players[player].numCampuses); // add to player struct
 	return playerCampuses;
 }
 
 // return the number of IP Patents the specified player currently has
 int getIPs (Game g, int player){
 	int playerIPs;
-	playerips = (g->player[player].patent); // add to player struct
+	playerips = (g->players[player].patent); // add to player struct
 	return playerIPs;
 	
 // return the number of Publications the specified player currently has
 int getPublications (Game g, int player){
 	int playerPublications;
-	playerPublications = (g->player[player].paper); // add to player struct
+	playerPublications = (g->players[player].paper); // add to player struct
 	return playerPublications;
 }
 
@@ -345,7 +345,7 @@ int getPublications (Game g, int player){
 // the specified player currently has
 int getStudents (Game g, int player, int discipline) {
 	int playerNumStudents;
-	playerNumStudents = (g->player[playerID].students[discipline]);
+	playerNumStudents = (g->players[player].students[discipline]);
 	return playerNumStudents
 }
 
