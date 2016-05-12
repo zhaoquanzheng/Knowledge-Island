@@ -333,34 +333,34 @@ int getKPIpoints (Game g, int player) {
 // return the number of ARC grants the specified player currently has
 int getARCs (Game g, int player) {
 	int playerARCs;
-	playerARCs = (g->players[player].numARCgrants); // add to player struct
+	playerARCs = (g->players[player-1].numARCgrants); // add to player struct
 	return playerARCs;
 }
 
 // return the number of GO8 campuses the specified player currently has
 int getG08s (Game g, int player) {
 	int playerG08s;
-	playerG08s = (g->players[player].numG08s); // add to player struct
+	playerG08s = (g->players[player-1].numG08s); // add to player struct
 	return playerG08s;
 }
 
 // return the number of normal Campuses the specified player currently has
 int getCampuses (Game g, int player) {
 	int playerCampuses;
-	playerCampuses = (g->players[player].numCampuses); // add to player struct
+	playerCampuses = (g->players[player-1].numCampuses); // add to player struct
 	return playerCampuses;
 }
 
 // return the number of IP Patents the specified player currently has
 int getIPs (Game g, int player){
 	int playerIPs;
-	playerips = (g->players[player].patent); // add to player struct
+	playerips = (g->players[player-1].patent); // add to player struct
 	return playerIPs;
 	
 // return the number of Publications the specified player currently has
 int getPublications (Game g, int player){
 	int playerPublications;
-	playerPublications = (g->players[player].paper); // add to player struct
+	playerPublications = (g->players[player-1].paper); // add to player struct
 	return playerPublications;
 }
 
@@ -368,7 +368,7 @@ int getPublications (Game g, int player){
 // the specified player currently has
 int getStudents (Game g, int player, int discipline) {
 	int playerNumStudents;
-	playerNumStudents = (g->players[player].students[discipline]);
+	playerNumStudents = (g->players[player-1].students[discipline]);
 	return playerNumStudents
 }
 
