@@ -237,12 +237,17 @@ int getMostARCs (Game g){
 	int ARCsOfPlayer1 = getARCs (g, UNI_A);
 	int ARCsOfPlayer2 = getARCs (g, UNI_B);
 	int ARCsOfPlayer3 = getARCs (g, UNI_C);
-	if((ARCsOfPlayer1 >= ARCsOfPlayer2) && (ARCsOfPlayer1 >= ARCsOfPlayer3))
+	if((ARCsOfPlayer1 >= ARCsOfPlayer2) && (ARCsOfPlayer1 >= ARCsOfPlayer3)){
 		return UNI_A;
-	else if((ARCsOfPlayer2 >= ARCsOfPlayer1) && (ARCsOfPlayer2 >= ARCsOfPlayer3))
+	}
+	
+	else if((ARCsOfPlayer2 >= ARCsOfPlayer1) && (ARCsOfPlayer2 >= ARCsOfPlayer3)){
 		return UNI_B;
-	else if(ARCsOfPlayer3 >= ARCsOfPlayer1) && (ARCsOfPlayer3 >= ARCsOfPlayer2))
+	}
+	
+	else if(ARCsOfPlayer3 >= ARCsOfPlayer1) && (ARCsOfPlayer3 >= ARCsOfPlayer2)){
 		return UNI_C;
+	}
 }
 
 
