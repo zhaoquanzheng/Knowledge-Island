@@ -55,7 +55,10 @@ typedef struct _player{
   //somehow talk about campuses
   //somehow talk about arcs
   //somehow talk about GO8s
-} * Player;
+  int numCampuses;
+  int numGO8s;
+  int numARCs;
+}  Player;
 
 typedef struct _board{
    int diceNum;
@@ -63,7 +66,7 @@ typedef struct _board{
    int vertice[6];
    int edge[6];
    //training centres?
-} * Tile;
+}  Tile;
 
 typedef struct _game{ //to be Updated as time goes by (regularly!!!)
   int currentTurn;
@@ -84,7 +87,9 @@ typedef struct _game{ //to be Updated as time goes by (regularly!!!)
   int mostKPIby;
 } game;
 
-
+char * getPlayerOrAIName(void);
+int getarcIndexFromCoord(Game g, path p);
+int getvertexIndexFromCoord(Game g, path p);
 
 int main(int argc, char * argv[]){
 //  testFunction();
@@ -165,13 +170,13 @@ void makeAction (Game g, action a){
    }else if(a.actionCode = OBTAIN_PUBLICATION){ //because the function that is 
                                                 //about to call makeAction()
                                                 //changes SPINOFF to either Pp, or IP
-      g->players[currPlyr]->papers++;
+      g->players[currPlyr].papers++;
    }else if(a.actionCode = OBTAIN_IP_PATENT){
-      g->players[currPlyr]->patent++;
+      g->players[currPlyr].patent++;
    }else{
       int price = getExchangeRate (g, currPlyr, a.disciplineFrom, a.disciplineTo);
-      g->players[currPlyr]->students[a.disciplineFrom] -= price;
-      g->players[currPlyr]->students[a.disciplineTo] ++;
+      g->players[currPlyr].students[a.disciplineFrom] -= price;
+      g->players[currPlyr].students[a.disciplineTo] ++;
       //Please admire how much stuff, we can assume here
       //and this lets you realise how much stuff goes into isLegalAction()
    }
@@ -205,7 +210,7 @@ void throwDice( Game g, int score){
    while(x < 3){
       y = 0;
       while(y<6){
-         g->players[x]->students[y]+=students[x][y];
+         g->players[x].students[y]+=students[x][y];
          y++;
       }
       x++;
@@ -295,8 +300,8 @@ int getWhoseTurn (Game g) {
 //Write function for getVertexIndexFromCoord
 int getCampus (Game g, path pathToVertex) {
     int vertexIndex;
-    if (getVertexIndexFromCoord (g, pathToVertex) != INVALID) { //#define INVALID
-        vertexIndex = g->boardVertices[getVertexIndexFromCoord (g, v)].contents;
+    if (getvertexIndexFromCoord (g, pathToVertex) != INVALID) { //#define INVALID
+        vertexIndex = g->board.vertice[getvertexIndexFromCoord (g, pathToVertex)];
     } else {
     	vertexIndex = VACANT_VERTEX;
     }
@@ -309,7 +314,8 @@ int getCampus (Game g, path pathToVertex) {
 int getARC (Game g, path pathToEdge) {
     int arcIndex;
     if (getArcIndexFromCoord (g, pathToArc) != INVALID) { //#define INVALID
-        arcIndex = g->boardVertices[getarcIndexFromCoord (a, v)].contents;
+    //
+    	arcIndex = g->board.edge[getarcIndexFromCoord (g, pathToEdge)];
     } else {
     	arcIndex = VACANT_ARC;
     }
@@ -370,7 +376,7 @@ int getIPs (Game g, int player){
 // return the number of Publications the specified player currently has
 int getPublications (Game g, int player){
 	int playerPublications;
-	playerPublications = (g->players[player-1].paper); // add to player struct
+	playerPublications = (g->players[player-1].papers); // add to player struct
 	return playerPublications;
 }
 
@@ -389,6 +395,7 @@ int getStudents (Game g, int player, int discipline) {
 int getExchangeRate (Game g, int player, int disciplineFrom, int disciplineTo) {
 	int rate = 3;
    //im not sure how to do this one
+   return rate;
 }
 
 
