@@ -9,9 +9,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-/* #include <string.h>
-   #include <math.h>
-*/
+#include <string.h>
+#include <math.h>
+
 #define DEFAULT_DISCIPLINES {STUDENT_BQN, STUDENT_MMONEY, STUDENT_MJ, \
                 STUDENT_MMONEY, STUDENT_MJ, STUDENT_BPS, STUDENT_MTV, \
                 STUDENT_MTV, STUDENT_BPS,STUDENT_MTV, STUDENT_BQN, \
@@ -45,7 +45,7 @@
 #define ARC_KPI 2
 #define IP_KPI 10
 #define PRESTIGE_KPI 10
-
+#define INVALID 0
 typedef struct _player{
   char playername[30]; //maximum of 30 characters
   int KPI;
@@ -88,7 +88,7 @@ typedef struct _game{ //to be Updated as time goes by (regularly!!!)
 } game;
 
 char * getPlayerOrAIName(void);
-int getarcIndexFromCoord(Game g, path p);
+int getArcIndexFromCoord(Game g, path p);
 int getvertexIndexFromCoord(Game g, path p);
 
 int main(int argc, char * argv[]){
@@ -105,22 +105,24 @@ int main(int argc, char * argv[]){
          too close together or not
       6)
    */
-}
 
 Game newGame(int discipline[], int dice[]){
    Game newG = (Game) malloc(sizeof(struct _game));
    newG->currentTurn = -1;
+   /*
    //printf("The name of the first Univerisity is :\n");
-   newG->players[UNI_A]->playername = getPlayerOrAIName();
+   newG->players[UNI_A-1].playername = getPlayerOrAIName();
    //printf("The name of the second Univerisity is :\n");
-   newG->players[UNI_B]->playername = getPlayerOrAIName();
+   newG->players[UNI_B-1].playername = getPlayerOrAIName();
    //printf("The name of the third Univerisity is :\n");
-   newG->players[UNI_C]->playername = getPlayerOrAIName();
+   newG->players[UNI_C-1].playername = getPlayerOrAIName();
+   */ 
+   //The scanf() can directly & into the code later
    
    int a = 0;
    while(a < 19){
-      board[a]->discipline = discipline[a];
-      board[a]->diceNum    = dice[a];
+      newG->board[a].discipline = discipline[a];
+      newG->board[a].diceNum    = dice[a];
       a++; 
    }
    
@@ -158,20 +160,22 @@ void makeAction (Game g, action a){
    char* pathway = a.destination;
    if(a.actionCode == BUILD_CAMPUS){
       //error we still haven't decided on how to code the vertexes
-      //int campus = getCampus(g,pathway);
+      int campus = getCampus(g,pathway);
       //so for the following, I don't know whether to use int, int*, or int[][]
+      g->board[0].vertice[campus] = currPlyr; //false code just to compile
       //g->something->(campus?)->?
       //pointer to that campus and change it to 'currPlyr' which therfore changes
       //ownership to that UNI
+      campus++; //dunno why it says variable not used, when it is used for that above thingy
    }else if(a.actionCode == OBTAIN_ARC){
-      //int Arc = getARC(g,pathway);
-      //g->arc = currPlyr;
+      int Arc = getARC(g,pathway);
+      g->board[0].edge[Arc] = currPlyr; //false code just to compile
       //^that doesn't really make sense at the moment, I know
-   }else if(a.actionCode = OBTAIN_PUBLICATION){ //because the function that is 
+   }else if(a.actionCode == OBTAIN_PUBLICATION){ //because the function that is 
                                                 //about to call makeAction()
                                                 //changes SPINOFF to either Pp, or IP
       g->players[currPlyr].papers++;
-   }else if(a.actionCode = OBTAIN_IP_PATENT){
+   }else if(a.actionCode == OBTAIN_IP_PATENT){
       g->players[currPlyr].patent++;
    }else{
       int price = getExchangeRate (g, currPlyr, a.disciplineFrom, a.disciplineTo);
@@ -190,13 +194,13 @@ void throwDice( Game g, int score){
 //WHETHER IT BE BY A COMBINATION OF THREE HEXAGONS, OR MAINLY AS A COORDINATE
    //I'll need to know which campuses and which players are on which vertex of the regions
    int i = 0;
-   int students[3][6] = {0};
+   int students[3][6] = {{0}};
    while(i < 19){
-      if(g->board[i]->diceNum == score){
+      if(g->board[i].diceNum == score){
          int type = getDiscipline(g,i); //Should I be relying/trusting on the other functions?
          int a = 0;
          while(a<6){
-            int corner = g->board[i]->vertice[a]; //CHANGE HERE
+            int corner = g->board[i].vertice[a]; //CHANGE HERE
             if(corner>=UNI_A && corner<=UNI_C){    //should NO_CAMPUS, or a UNI
                students[corner][type]++;
             }
@@ -239,20 +243,22 @@ int getDiceValue (Game g, int regionID){
 // this is NO_ONE until the first arc is purchased after the game 
 // has started.  
 int getMostARCs (Game g){
+   int better = 0;
 	int ARCsOfPlayer1 = getARCs (g, UNI_A);
 	int ARCsOfPlayer2 = getARCs (g, UNI_B);
 	int ARCsOfPlayer3 = getARCs (g, UNI_C);
 	if((ARCsOfPlayer1 >= ARCsOfPlayer2) && (ARCsOfPlayer1 >= ARCsOfPlayer3)){
-		return UNI_A;
+		better = UNI_A;
 	}
 	
 	else if((ARCsOfPlayer2 >= ARCsOfPlayer1) && (ARCsOfPlayer2 >= ARCsOfPlayer3)){
-		return UNI_B;
+		better = UNI_B;
 	}
 	
-	else if(ARCsOfPlayer3 >= ARCsOfPlayer1) && (ARCsOfPlayer3 >= ARCsOfPlayer2)){
-		return UNI_C;
+	else if((ARCsOfPlayer3 >= ARCsOfPlayer1) && (ARCsOfPlayer3 >= ARCsOfPlayer2)){
+		better = UNI_C;
 	}
+   return better;
 }
 
 
@@ -261,20 +267,22 @@ int getMostARCs (Game g){
 //If a university tries to start a business spinoff they can either get a research publication (probability 2/3) or some valuable IP/Patent (probability 1/3)
 
 int getMostPublications (Game g){
+   int winner = 0;
 	int PublicationsOfPlayer1 = getPublications (g, UNI_A);
 	int PublicationsOfPlayer2 = getPublications (g, UNI_B);
 	int PublicationsOfPlayer3 = getPublications (g, UNI_C);
 	if((PublicationsOfPlayer1 >= PublicationsOfPlayer2) && (PublicationsOfPlayer1 >= PublicationsOfPlayer3)){
-		return UNI_A;
+		winner = UNI_A;
 	}
 		
 	else if((PublicationsOfPlayer2 >= PublicationsOfPlayer1) && (PublicationsOfPlayer2 >= PublicationsOfPlayer3)){
-		return UNI_B;
+		winner = UNI_B;
 	}
 	
-	else if(PublicationsOfPlayer3 >= PublicationsOfPlayer1) && (PublicationsOfPlayer3 >= PublicationsOfPlayer2)){
-		return UNI_C;
+	else if((PublicationsOfPlayer3 >= PublicationsOfPlayer1) && (PublicationsOfPlayer3 >= PublicationsOfPlayer2)){
+		winner = UNI_C;
 	}
+   return winner;
 }
 
 
@@ -301,7 +309,7 @@ int getWhoseTurn (Game g) {
 int getCampus (Game g, path pathToVertex) {
     int vertexIndex;
     if (getvertexIndexFromCoord (g, pathToVertex) != INVALID) { //#define INVALID
-        vertexIndex = g->board.vertice[getvertexIndexFromCoord (g, pathToVertex)];
+        vertexIndex = g->board[0].vertice[getvertexIndexFromCoord (g, pathToVertex)];
     } else {
     	vertexIndex = VACANT_VERTEX;
     }
@@ -313,9 +321,9 @@ int getCampus (Game g, path pathToVertex) {
 //Write function for getArcIndexFromCoord
 int getARC (Game g, path pathToEdge) {
     int arcIndex;
-    if (getArcIndexFromCoord (g, pathToArc) != INVALID) { //#define INVALID
+    if (getArcIndexFromCoord (g, pathToEdge) != INVALID) { //#define INVALID
     //
-    	arcIndex = g->board.edge[getarcIndexFromCoord (g, pathToEdge)];
+    	arcIndex = g->board[0].edge[getArcIndexFromCoord (g, pathToEdge)];
     } else {
     	arcIndex = VACANT_ARC;
     }
@@ -331,11 +339,11 @@ int getKPIpoints (Game g, int player) {
 	//define CAMPUS_KPI = 10
 	playerKPI += CAMPUS_KPI * getCampuses(g, player);
 	//define G08_KPI = 20
-	playerKPI += GO8_KPI * getG08s(g, player);
+	playerKPI += GO8_KPI * getGO8s(g, player);
 	//define IP_KPI = 10
 	playerKPI += IP_KPI * getIPs(g, player);
 
-	if (player == getMostArcs(g)) { 
+	if (player == getMostARCs(g)) { 
 		playerKPI += 10;
 	}
 
@@ -349,15 +357,15 @@ int getKPIpoints (Game g, int player) {
 // return the number of ARC grants the specified player currently has
 int getARCs (Game g, int player) {
 	int playerARCs;
-	playerARCs = (g->players[player-1].numARCgrants); // add to player struct
+	playerARCs = (g->players[player-1].numARCs); // add to player struct
 	return playerARCs;
 }
 
 // return the number of GO8 campuses the specified player currently has
-int getG08s (Game g, int player) {
-	int playerG08s;
-	playerG08s = (g->players[player-1].numG08s); // add to player struct
-	return playerG08s;
+int getGO8s (Game g, int player) {
+	int playerGO8s;
+	playerGO8s = (g->players[player-1].numGO8s); // add to player struct
+	return playerGO8s;
 }
 
 // return the number of normal Campuses the specified player currently has
@@ -372,6 +380,7 @@ int getIPs (Game g, int player){
 	int playerIPs;
 	playerIPs = (g->players[player-1].patent); // add to player struct
 	return playerIPs;
+}
 	
 // return the number of Publications the specified player currently has
 int getPublications (Game g, int player){
