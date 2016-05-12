@@ -364,7 +364,7 @@ int getCampuses (Game g, int player) {
 // return the number of IP Patents the specified player currently has
 int getIPs (Game g, int player){
 	int playerIPs;
-	playerips = (g->players[player-1].patent); // add to player struct
+	playerIPs = (g->players[player-1].patent); // add to player struct
 	return playerIPs;
 	
 // return the number of Publications the specified player currently has
