@@ -259,12 +259,17 @@ int getMostPublications (Game g){
 	int PublicationsOfPlayer1 = getPublications (g, UNI_A);
 	int PublicationsOfPlayer2 = getPublications (g, UNI_B);
 	int PublicationsOfPlayer3 = getPublications (g, UNI_C);
-	if((PublicationsOfPlayer1 >= PublicationsOfPlayer2) && (PublicationsOfPlayer1 >= PublicationsOfPlayer3))
+	if((PublicationsOfPlayer1 >= PublicationsOfPlayer2) && (PublicationsOfPlayer1 >= PublicationsOfPlayer3)){
 		return UNI_A;
-	else if((PublicationsOfPlayer2 >= PublicationsOfPlayer1) && (PublicationsOfPlayer2 >= PublicationsOfPlayer3))
+	}
+		
+	else if((PublicationsOfPlayer2 >= PublicationsOfPlayer1) && (PublicationsOfPlayer2 >= PublicationsOfPlayer3)){
 		return UNI_B;
-	else if(PublicationsOfPlayer3 >= PublicationsOfPlayer1) && (PublicationsOfPlayer3 >= PublicationsOfPlayer2))
+	}
+	
+	else if(PublicationsOfPlayer3 >= PublicationsOfPlayer1) && (PublicationsOfPlayer3 >= PublicationsOfPlayer2)){
 		return UNI_C;
+	}
 }
 
 
