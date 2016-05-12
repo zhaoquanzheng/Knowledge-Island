@@ -141,37 +141,6 @@ void disposeGame (Game g){
    free(g);
 }
 
-void throwDice( Game g, int score){
-//NOTE:THIS FUNCTION RELIES HEAVILY ON HOW WE STORE THE INFORMATION OF CAMPUSES ON THE MAP
-//WHETHER IT BE BY A COMBINATION OF THREE HEXAGONS, OR MAINLY AS A COORDINATE
-   //I'll need to know which campuses and which players are on which vertex of the regions
-   int i = 0;
-   int students[3][6] = {0};
-   while(i < 19){
-      if(g->board[i]->diceNum == score){
-         int type = getDiscipline(g,i); //Should I be relying/trusting on the other functions?
-         int a = 0;
-         while(a<6){
-            int corner = g->board[i]->vertice[a] //CHANGE HERE
-            if(corner>=UNI_A && corner<=UNI_C){    //should NO_CAMPUS, or a UNI
-               students[corner][type]++;
-            }
-            a++;
-         }
-      }
-      i++;
-   }
-   int x = 0;
-   int y = 0;
-   while(x < 3){
-      y = 0;
-      while(y<6){
-         g->players[x]->students[y]+=students[x][y];
-         y++;
-      }
-      x++;
-   }
-}
 
 
 void makeAction (Game g, action a){
@@ -209,6 +178,40 @@ void makeAction (Game g, action a){
    
    //} for the commented while loop at the top   
 }
+
+
+void throwDice( Game g, int score){
+//NOTE:THIS FUNCTION RELIES HEAVILY ON HOW WE STORE THE INFORMATION OF CAMPUSES ON THE MAP
+//WHETHER IT BE BY A COMBINATION OF THREE HEXAGONS, OR MAINLY AS A COORDINATE
+   //I'll need to know which campuses and which players are on which vertex of the regions
+   int i = 0;
+   int students[3][6] = {0};
+   while(i < 19){
+      if(g->board[i]->diceNum == score){
+         int type = getDiscipline(g,i); //Should I be relying/trusting on the other functions?
+         int a = 0;
+         while(a<6){
+            int corner = g->board[i]->vertice[a] //CHANGE HERE
+            if(corner>=UNI_A && corner<=UNI_C){    //should NO_CAMPUS, or a UNI
+               students[corner][type]++;
+            }
+            a++;
+         }
+      }
+      i++;
+   }
+   int x = 0;
+   int y = 0;
+   while(x < 3){
+      y = 0;
+      while(y<6){
+         g->players[x]->students[y]+=students[x][y];
+         y++;
+      }
+      x++;
+   }
+}
+
 
 // what type of students are produced by the specified region?
 // regionID is the index of the region in the newGame arrays (above) 
