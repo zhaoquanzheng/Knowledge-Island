@@ -136,6 +136,7 @@ Game newGame(int discipline[], int dice[]){
 } //We need to improve on struct_game, and then I'll have to add those changes to initialisation
 
 
+
 void disposeGame (Game g){
    free(g);
 }
@@ -207,6 +208,36 @@ void makeAction (Game g, action a){
    }
    
    //} for the commented while loop at the top   
+}
+
+
+// which university currently has the prestige award for the most ARCs?
+// this is NO_ONE until the first arc is purchased after the game 
+// has started.  
+int getMostARCs (Game g){
+	int ARCsOfPlayer1 = getARCs (g, 0);
+	int ARCsOfPlayer2 = getARCs (g, 1);
+	int ARCsOfPlayer3 = getARCs (g, 2);
+	if((ARCsOfPlayer1 >= ARCsOfPlayer2) && (ARCsOfPlayer1 >= ARCsOfPlayer3))
+		return 0;
+	else if((ARCsOfPlayer2 >= ARCsOfPlayer1) && (ARCsOfPlayer2 >= ARCsOfPlayer3))
+		return 1;
+	else if(ARCsOfPlayer3 >= ARCsOfPlayer1) && (ARCsOfPlayer3 >= ARCsOfPlayer2))
+		return 2;
+}
+
+// which university currently has the prestige award for the most pubs?
+// this is NO_ONE until the first publication is made.
+int getMostPublications (Game g){
+	int PublicationsOfPlayer1 = getPublications (g, 0);
+	int PublicationsOfPlayer2 = getPublications (g, 1);
+	int PublicationsOfPlayer3 = getPublications (g, 2);
+	if((PublicationsOfPlayer1 >= PublicationsOfPlayer2) && (PublicationsOfPlayer1 >= PublicationsOfPlayer3))
+		return 0;
+	else if((PublicationsOfPlayer2 >= PublicationsOfPlayer1) && (PublicationsOfPlayer2 >= PublicationsOfPlayer3))
+		return 1;
+	else if(PublicationsOfPlayer3 >= PublicationsOfPlayer1) && (PublicationsOfPlayer3 >= PublicationsOfPlayer2))
+		return 2;
 }
 
 // return the current turn number of the game -1,0,1, ..
@@ -295,6 +326,19 @@ int getCampuses (Game g, int player) {
 	int playerCampuses;
 	playerCampuses = (g->player[playerID].numCampuses); // add to player struct
 	return playerCampuses;
+}
+
+// return the number of IP Patents the specified player currently has
+int getIPs (Game g, int player){
+	int playerIPs;
+	playerips = (g->player[player].patent); // add to player struct
+	return playerIPs;
+	
+// return the number of Publications the specified player currently has
+int getPublications (Game g, int player){
+	int playerPublications;
+	playerPublications = (g->player[player].paper); // add to player struct
+	return playerPublications;
 }
 
 // return the number of students of the specified discipline type 
