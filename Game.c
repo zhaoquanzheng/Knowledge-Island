@@ -191,7 +191,7 @@ void throwDice( Game g, int score){
          int type = getDiscipline(g,i); //Should I be relying/trusting on the other functions?
          int a = 0;
          while(a<6){
-            int corner = g->board[i]->vertice[a] //CHANGE HERE
+            int corner = g->board[i]->vertice[a]; //CHANGE HERE
             if(corner>=UNI_A && corner<=UNI_C){    //should NO_CAMPUS, or a UNI
                students[corner][type]++;
             }
@@ -379,7 +379,7 @@ int getPublications (Game g, int player){
 int getStudents (Game g, int player, int discipline) {
 	int playerNumStudents;
 	playerNumStudents = (g->players[player-1].students[discipline]);
-	return playerNumStudents
+	return playerNumStudents;
 }
 
 // return how many students of discipline type disciplineFrom
