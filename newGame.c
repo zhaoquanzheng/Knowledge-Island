@@ -758,7 +758,7 @@ vector getVector(Game g, path p){
 int isLegalAction(Game g, action a){
    int legal = 1;
    //return 0 if legal;
-   if(a == PASS){
+   if(a.actionCode == PASS){
       legal = 0;
    }
    return legal;
