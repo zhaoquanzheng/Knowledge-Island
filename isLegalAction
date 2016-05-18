@@ -15,16 +15,135 @@ or would having c formatting make it easier to read?
 
 int isLegalAction (Game g, action a){ //assume paths passed in are NULL terminated
   int Legal = FALSE; //because there will be more illegal moves than legal moves
-  
+  char p[] = a.destination;
   //Section One - checking about paths where they will lead to
+///use getVertex makes this already done
+   Vector direction = (Vector) malloc(6*sizeof(vector));
+   direction[E_EAST].x = 1;
+   direction[E_EAST].y = 0;
+   direction[S_EAST].x = 1;
+   direction[S_EAST].y = 1;
+   direction[S_WEST].x = -1;
+   direction[S_WEST].y = 1;
+   direction[W_WEST].x = -1;
+   direction[W_WEST].y = 0;
+   direction[N_WEST].x = -1;
+   direction[N_WEST].y = -1;
+   direction[N_EAST].x = 1;
+   direction[N_EAST].y = -1;
+   //double check all east has x +1; west has x-1;
+   //north has y-1; south has y+1;
+   
+      //{ earthinates data, 0 means doesn't exist, 1 means onboard
+   //Imagine Earth, filled in lava, and we look at it from an objective view
+   //If the grid point only has height 0, it is lava and we can't do anything to it
+   //If the grid point is height 1AU above lava, that should mean there should be land...
+   int earth[12][11] = {{0}};
+   earth[0][3] = 1;
+   earth[0][5] = 1;
+   earth[0][7] = 1;
+   earth[1][2] = 1;
+   earth[1][4] = 1;
+   earth[1][6] = 1;
+   earth[1][8] = 1;
+   earth[2][2] = 1;
+   earth[2][4] = 1;
+   earth[2][6] = 1;
+   earth[2][8] = 1;
+   earth[3][1] = 1;
+   earth[3][3] = 1;
+   earth[3][5] = 1;
+   earth[3][7] = 1;
+   earth[3][9] = 1;
+   earth[4][1] = 1;
+   earth[4][3] = 1;
+   earth[4][5] = 1;
+   earth[4][7] = 1;
+   earth[4][9] = 1;
+   earth[5][0] = 1;
+   earth[5][2] = 1;
+   earth[5][4] = 1;
+   earth[5][6] = 1;
+   earth[5][8] = 1;
+   earth[5][10] = 1;
+   earth[6][0] = 1;
+   earth[6][2] = 1;
+   earth[6][4] = 1;
+   earth[6][6] = 1;
+   earth[6][8] = 1;
+   earth[6][10] = 1;
+   earth[7][1] = 1;
+   earth[7][3] = 1;
+   earth[7][5] = 1;
+   earth[7][7] = 1;
+   earth[7][9] = 1;
+   earth[8][1] = 1;
+   earth[8][3] = 1;
+   earth[8][5] = 1;
+   earth[8][7] = 1;
+   earth[8][9] = 1;
+   earth[9][2] = 1;
+   earth[9][4] = 1;
+   earth[9][6] = 1;
+   earth[9][8] = 1;
+   earth[10][2] = 1;
+   earth[10][4] = 1;
+   earth[10][6] = 1;
+   earth[10][8] = 1;
+   earth[11][3] = 1;
+   earth[11][5] = 1;
+   earth[11][7] = 1;
+   //}
+
+   //given a path
+   vector start;
+   start.x = 5; //Castle A is at (5,0)
+   start.y = 0; 
+   int orientation = S_EAST;
+   int ccc = 0;
+   while(p[ccc] != '\0'){ //may need fixing this end value
+      //assuming the elements of p can only be 'L' 'R' 'B' or EOF
+      printf("%c ",p[ccc]);
+      if(p[ccc]=='L'){
+         orientation--;
+      }else if(p[ccc]== 'R'){
+         orientation++;
+      }else if(p[ccc]== 'B'){
+         orientation = (orientation+3)%6;
+      }else{
+         assert(1==2);
+      }
+      if(ccc >= 1){
+         start.previousX = start.x;
+         start.previousY = start.y; //having a previous will help calculating ARC
+      }
+      start.x += direction[orientation].x;
+      start.y += direction[orientation].y;
+      //we've moved in this direction, now we check if it's in the plane
+      printf("%d,%d\n",start.x,start.y);
+      if(earth[state.x][start.y]==1){
+         legal = TRUE;
+      }else{
+         legal = FALSE;
+      }
+      //assert(earth[start.x][start.y]==1);
+      //If it does, we continue to move on along the vectors
+      ccc++;
+   }
+
+
+
 
   //Section Two - checking about students to build stuff
-  
+  //1) make sure for CAMPUS, ARC - they have resources; and 
+  //2) the path they gave returns NO_ONE owns that
   //Section Three - Checking about students to buy stuff
-  
+  //this was for SPIN_OFF and RETRAIN_STUDENTS
   //Section Four.1 - Checking about the spot where they want to build - Separate Campus and Arc
-  
+  //Campus are not too close to each other
+  //Campus is on top of an endpoint of an arc they own
   //Section Four.2
+  //Arcs are built from/connected to other arcs
   
   //write more stuff that you see from the OpenLearning Site, or know from Game rules
   
