@@ -15,6 +15,7 @@ or would having c formatting make it easier to read?
 
 int isLegalAction (Game g, action a){ //assume paths passed in are NULL terminated
   int Legal = FALSE; //because there will be more illegal moves than legal moves
+  int playerARC = getWhoseTurn(g) + 1;
   char p[] = a.destination;
   //Section One - checking about paths where they will lead to
 ///use getVertex makes this already done
@@ -139,9 +140,53 @@ int isLegalAction (Game g, action a){ //assume paths passed in are NULL terminat
   //2) the path they gave returns NO_ONE owns that
   //Section Three - Checking about students to buy stuff
   //this was for SPIN_OFF and RETRAIN_STUDENTS
+  
   //Section Four.1 - Checking about the spot where they want to build - Separate Campus and Arc
   //Campus are not too close to each other
   //Campus is on top of an endpoint of an arc they own
+  if (a.actionCode == BUILD_CAMPUS) {
+      //Check that vertex is on board
+      if (getVertexIndexFromCoord (g, a.pathToVertex) == INVALID) {
+        legal = FALSE;
+      } else { //Check that vertex is free
+         if (g->boardVertices[getVertexIndexFromCoord(g, a.pathToVertex)].contents != VACANT_VERTEX) {
+           legal = FALSE;
+         }
+         //Check if adjacent vertex is free
+         int adjacentVertices[TOTAL_ADJACENT_VERTICES];
+         
+         findAdjacentVertices; // Write function for this
+         int count = 0;
+         while (count < TOTAL_ADJACENT_VERTICES( {
+             if (getVertexFromCoord (g, adjacentVertices[count] != invalid) {
+                 if(g->boardVertices[getVertexIndexFromCoord(g, a.pathToVertex)].contents != VACANT_VERTEX) {
+                     legal = FALSE;
+                 }
+             }
+             count++;
+         }
+      }
+      if (legal = TRUE) {
+         //Check if vertex is joined to existing ARC
+         int adjacentARCs [TOTAL_JOINING_ARCS];
+         findARCsJoinedToVertex; // Write function
+         
+         count = 0;
+         while (count < TOTAL_JOINING_ARCS) {
+             if (getARCFromCoord (g, adjacentARCS[0]) != INVALID) {
+                 if (g->boardARCs [getARCFromCoord (g, adjacentARCs[count])].contents == playerARC) {
+                     legal = TRUE;
+                 }
+             }
+             count++;
+         }
+     }
+     if (player.Disciplines[STUDEN_BPS] < 1) || player.Disciplines[STUDENT_BQN} < 1 ||
+     player.Disciplines[STUDENT_MJ] < 1 || player.Disciplines[STUDENT_MTV] < 1) {
+         legal = FALSE;
+     }
+  }
+  
   //Section Four.2
   //Arcs are built from/connected to other arcs
   
