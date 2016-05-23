@@ -85,6 +85,8 @@ typedef struct _game{ //to be Updated as time goes by (regularly!!!)
   int mostPaperby;
   int KPI;
   int mostKPIby;
+  int boardARCs;
+  int boardVertices;
 } game;
 
 char * getPlayerOrAIName(void);
