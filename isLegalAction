@@ -138,6 +138,59 @@ int isLegalAction (Game g, action a){ //assume paths passed in are NULL terminat
   //Section Two - checking about students to build stuff
   //1) make sure for CAMPUS, ARC - they have resources; and 
   //2) the path they gave returns NO_ONE owns that
+  //Section Two - checking about students to build stuff
+  //1) make sure for CAMPUS, ARC - they have resources; and 
+  //2) the path they gave returns NO_ONE owns that
+   if (a.actionCode == OBTAIN_ARC) {
+		if(!((player.Disciplines[STUDEN_BPS]>=1)&&(player.DisciplinesSTUDENT_BQN]>=1))){
+			legal = FALSE;
+		}
+		else if(  !=NO_ONE){
+			legal = FALSE;	
+		}
+	}
+
+
+
+  if (a.actionCode == BUILD_CAMPUS) {
+ 	if(!((player.Disciplines[STUDEN_BPS]>=1)&&(player.DisciplinesSTUDENT_BQN]>=1)&&(player.Disciplines[STUDEN_MJ]>=1)&&(player.DisciplinesSTUDENT_MTV]>=1))){
+ 		legal = FALSE;
+ 	}
+	else if(  !=NO_ONE){
+		legal = FALSE;	
+	 }
+  }
+  //Section Three - Checking about students to buy stuff
+  //this was for SPIN_OFF and RETRAIN_STUDENTS
+  
+  if (a.actionCode == START_SPINOFF) {
+ 	if(!((player.Disciplines[STUDEN_MJ]>=1)&&(player.DisciplinesSTUDENT_MTV]>=1)&&(player.Disciplines[STUDEN_MMONEY]>=1))){
+ 		legal = FALSE;
+ 	}
+	else{
+		legal = TRUE;	
+	 }
+  }
+  
+    if (a.actionCode == BUILD_GO8) {
+ 	if(!((player.Disciplines[STUDEN_MJ]>=2)&&(player.Disciplines[STUDEN_MMONEY]>=3))){
+ 		legal = FALSE;
+ 	}
+	else if(  !=NO_ONE){
+		legal = FALSE;	
+	 }
+  }
+  
+  if (a.actionCode == RETRAIN_STUDENTS) {
+ 	if((player.Disciplines[STUDEN_BPS]>=3)||(player.DisciplinesSTUDENT_BQN]>=3)||(player.Disciplines[STUDEN_MJ]>=3)||(player.DisciplinesSTUDENT_MTV]>=3)||(player.Disciplines[STUDEN_MMONEY]>=3)){
+ 		legal = TRUE;
+ 	}
+	else{
+		legal = FALSE;
+	 }
+  }
+  
+  
   //Section Three - Checking about students to buy stuff
   //this was for SPIN_OFF and RETRAIN_STUDENTS
   
@@ -146,13 +199,17 @@ int isLegalAction (Game g, action a){ //assume paths passed in are NULL terminat
   //Campus is on top of an endpoint of an arc they own
   if (a.actionCode == BUILD_CAMPUS) {
       //Check that vertex is on board
-      if (getVertexIndexFromCoord (g, a.pathToVertex) == INVALID) {
-        legal = FALSE;
-      } else { //Check that vertex is free
-         if (g->boardVertices[getVertexIndexFromCoord(g, a.pathToVertex)].contents != VACANT_VERTEX) {
-           legal = FALSE;
-         }
-         //Check if adjacent vertex is free
+     
+ 	  if(!((player.Disciplines[STUDEN_BPS]>=1)&&(player.DisciplinesSTUDENT_BQN]>=1)&&(player.Disciplines[STUDEN_MJ]>=1)&&(player.DisciplinesSTUDENT_MTV]>=1))){
+ 		  legal = FALSE;
+ 		  }//Check if adjacent vertex is free
+ 		  else if (getVertexIndexFromCoord (g, a.pathToVertex) == INVALID) {
+              legal = FALSE;
+              } else { //Check have resources
+              if (g->boardVertices[getVertexIndexFromCoord(g, a.pathToVertex)].contents != VACANT_VERTEX) {
+                legal = FALSE;
+               }
+               //Check if adjacent vertex is free
          int adjacentVertices[TOTAL_ADJACENT_VERTICES];
          
          findAdjacentVertices; // Write function for this
@@ -180,11 +237,8 @@ int isLegalAction (Game g, action a){ //assume paths passed in are NULL terminat
              }
              count++;
          }
-     }
-     if (player.Disciplines[STUDEN_BPS] < 1) || player.Disciplines[STUDENT_BQN} < 1 ||
-     player.Disciplines[STUDENT_MJ] < 1 || player.Disciplines[STUDENT_MTV] < 1) {
-         legal = FALSE;
-     }
+      }
+    
   }
   
   //Section Four.2
