@@ -1,4 +1,4 @@
-//testgame
+//testgame v1.1
 /*To test
 Game newGame (int discipline[], int dice[]);
 void disposeGame (Game g);
@@ -33,6 +33,7 @@ int getExchangeRate (Game g, int player,
 
 void testGame();
 
+/*
 //{ I'll have this in Game.c when it's finished
 typedef struct _player{
   char playername[30]; //maximum of 30 characters
@@ -72,6 +73,8 @@ typedef struct _board{
 
 
 //}
+*/
+
 
 int main(int argc, char *argv[]){
    testGame();
@@ -98,7 +101,7 @@ void testGame(){
    
    printf("Testing disposeGame()\n");
    disposeGame(g);
-   assert(sizeof(g)<sizeof(struct _game));//not sure if disposeGame() is testable
+   assert(g == NULL);//not sure if disposeGame() is testable
    printf("Finished testing disposeGame()\n");
    
 /* not sure how to test this
@@ -228,4 +231,3 @@ void testGame(){
    
    printf("All tests passed!\n");
 }
-
